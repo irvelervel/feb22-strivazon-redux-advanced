@@ -4,7 +4,7 @@
 // 2) from the same input, will always emit the same output
 // 3) side-effects (like an API call) are NOT permitted in a pure function
 
-import { ADD_TO_CART, REMOVE_FROM_CART, SET_USERNAME } from '../actions'
+import { ADD_TO_CART, REMOVE_FROM_CART } from '../actions'
 
 // let's think now about our initial state for the redux store!
 const initialState = {
@@ -19,31 +19,20 @@ const cartReducer = (state = initialState, action) => {
     // on how to HANDLE it! you need a reducer case!
     case ADD_TO_CART:
       return {
+        // state is now just the cart slice! just the object with content and error
         ...state,
         content: [...state.content, action.payload], // action.payload is the new book we're trying to add
-        // content: state.cart.content.concat(action.payload), // action.payload is the new book we're trying to add
-        // content: state.cart.content.push(action.payload) <-- SUPER BAD, PUSH IS NOT ALLOWED IN A REDUCER
+        // content: state.content.concat(action.payload), // action.payload is the new book we're trying to add
+        // content: state.content.push(action.payload) <-- SUPER BAD, PUSH IS NOT ALLOWED IN A REDUCER
         // because EDITS the state argument (which is forbidden) and returns a number
       }
     case REMOVE_FROM_CART:
       return {
         ...state,
-        cart: {
-          ...state.cart, // this bring in here content and error
-          //   content: state.cart.content.filter((book, i) => i !== action.payload),
-          content: [
-            ...state.cart.content.slice(0, action.payload), // all the elements BEFORE action.payload
-            ...state.cart.content.slice(action.payload + 1), // all the elements AFTER action.payload
-          ], // hardcore solution but more efficient :)
-        },
-      }
-    case SET_USERNAME:
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          name: action.payload,
-        },
+        content: [
+          ...state.content.slice(0, action.payload), // all the elements BEFORE action.payload
+          ...state.content.slice(action.payload + 1), // all the elements AFTER action.payload
+        ], // hardcore solution but more efficient :)
       }
     default:
       return state
@@ -52,4 +41,4 @@ const cartReducer = (state = initialState, action) => {
   }
 }
 
-export default mainReducer
+export default cartReducer

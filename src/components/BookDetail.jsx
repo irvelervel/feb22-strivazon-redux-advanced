@@ -10,6 +10,8 @@ import { addToCartAction } from '../redux/actions'
 // in any case, for accessing mapDispatchToProps we STILL need to write a mapStateToProps
 // because mapDispatchToProps is the second argument of the connect function!
 
+// the state your mapStateToProps is receiving as the argument
+// is STILL THE BIG PIE! everything should work as before :)
 const mapStateToProps = (state) => ({
   username: state.user.name,
 })

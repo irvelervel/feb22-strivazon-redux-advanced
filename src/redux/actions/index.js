@@ -25,3 +25,9 @@ export const setUsernameAction = (name) => ({
   type: SET_USERNAME,
   payload: name,
 })
+
+// redux-thunk allows you to write more powerful action-creators!
+// if we want to fill a redux store property with a value coming from an API call,
+// we CANNOT put this async logic in any reducer file! because the outcome of an
+// API call is unpredictable! so we have just one place left for achieving this:
+// feeding the reducer with the data already fetched!
