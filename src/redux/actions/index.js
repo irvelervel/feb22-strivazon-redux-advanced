@@ -2,6 +2,8 @@ export const ADD_TO_CART = 'ADD_TO_CART'
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 export const SET_USERNAME = 'SET_USERNAME'
 export const GET_BOOKS = 'GET_BOOKS'
+export const TOGGLE_SPINNER = 'TOGGLE_SPINNER'
+export const TOGGLE_ERROR = 'TOGGLE_ERROR'
 
 // here we can write ACTION CREATORS
 // wtf is an action creator? is a function returning an action
@@ -72,11 +74,27 @@ export const getBooksAction = () => {
           type: GET_BOOKS,
           payload: books,
         })
+        // let's toggle the spinner off!
+        dispatch({
+          type: TOGGLE_SPINNER,
+        })
       } else {
-        console.log('error')
+        // let's toggle the spinner off!
+        dispatch({
+          type: TOGGLE_SPINNER,
+        })
+        dispatch({
+          type: TOGGLE_ERROR,
+        })
       }
     } catch (error) {
-      console.log(error)
+      // let's toggle the spinner off!
+      dispatch({
+        type: TOGGLE_SPINNER,
+      })
+      dispatch({
+        type: TOGGLE_ERROR,
+      })
     }
   }
 }
