@@ -2,7 +2,7 @@ import { Component } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import Button from 'react-bootstrap/Button'
 import { connect } from 'react-redux'
-import { addToCartAction } from '../redux/actions'
+import { addToCartAction, addToCartActionWithThunk } from '../redux/actions'
 
 // BookDetail really does not need to ready *anything* from the redux store!
 // it's job is just to append a new book at the end of the current cart.content
@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch) => ({
   // that means, some props capable of DISPATCHING ACTIONS!
   // let's create a prop that will dispatch an action when invoked!
   addToCart: (bookToAdd) => {
-    dispatch(addToCartAction(bookToAdd))
+    dispatch(addToCartActionWithThunk(bookToAdd))
   },
 })
 

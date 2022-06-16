@@ -1,31 +1,34 @@
-import { Component } from "react";
-import BookList from "./BookList";
-import BookDetail from "./BookDetail";
-import { Col, Row } from "react-bootstrap";
+import { Component } from 'react'
+import BookList from './BookList'
+import BookDetail from './BookDetail'
+import { Col, Row } from 'react-bootstrap'
+import { connect } from 'react-redux'
+import { getBooksAction } from '../redux/actions'
+
+const mapStateToProps = (state) => ({
+  booksFromRedux: state.book.stock, // the array of books from the store
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  getBooks: () => {
+    dispatch(getBooksAction())
+  },
+})
 
 class BookStore extends Component {
   state = {
-    books: [],
+    // books: [],
     bookSelected: null,
-  };
+  }
 
   componentDidMount = async () => {
-    try {
-      let resp = await fetch(
-        "https://striveschool-api.herokuapp.com/food-books"
-      );
-      if (resp.ok) {
-        let books = await resp.json();
-        this.setState({ books });
-      } else {
-        console.log("error");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    // in here now I'll not do the fetch inside this component
+    // but instead I'll dispatch the getBooksAction action-creator!
+    // which will fetch the books and then travel towards the reducer
+    this.props.getBooks()
+  }
 
-  changeBook = (book) => this.setState({ bookSelected: book });
+  changeBook = (book) => this.setState({ bookSelected: book })
 
   render() {
     return (
@@ -34,17 +37,20 @@ class BookStore extends Component {
           <BookList
             bookSelected={this.state.bookSelected}
             changeBook={this.changeBook}
-            books={this.state.books}
+            // books={this.state.books}
+            books={this.props.booksFromRedux} // empty array to start
           />
         </Col>
         <Col md={8}>
-          <BookDetail
-            bookSelected={this.state.bookSelected}
-          />
+          <BookDetail bookSelected={this.state.bookSelected} />
         </Col>
       </Row>
-    );
+    )
   }
 }
 
-export default BookStore;
+export default connect(mapStateToProps, mapDispatchToProps)(BookStore)
+// mapStateToProps in here is needed to retrieve state.book.stock, the array
+// that now holds the available books
+// mapDispatchToProps in here is needed to dispatch getBooksAction in the mounting phase,
+// in order to fill up state.book.stock
